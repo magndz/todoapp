@@ -1,4 +1,4 @@
-package com.app.domain;
+package app.domain;
 
 import javax.persistence.Id;
 
@@ -9,11 +9,6 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId")
-    private User user;
-
     private String content;
     private boolean completed;
 
@@ -22,14 +17,6 @@ public class Todo {
 
     public Long getId() {
         return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getContent() {
@@ -52,7 +39,6 @@ public class Todo {
     public String toString() {
         return "Todo{" +
                 "todoId=" + id +
-                ", user=" + user +
                 ", description='" + content + '\'' +
                 ", completed=" + completed +
                 '}';

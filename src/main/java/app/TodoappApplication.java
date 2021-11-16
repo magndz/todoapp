@@ -1,4 +1,4 @@
-package com.app;
+package app;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +12,7 @@ public class TodoappApplication {
 	public 	ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(TodoappApplication.class, args);
 	}

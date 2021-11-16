@@ -1,7 +1,9 @@
-package com.app.service;
+package app.service;
 
-import com.app.domain.Todo;
-import com.app.domain.TodoRepository;
+import app.domain.Todo;
+import app.repository.TodoRepository;
+import app.service.Iface.ITodoService;
+import app.service.dtos.TodoDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class TodoService {
+public class TodoService implements ITodoService {
     private final TodoRepository todoRepository;
 
     @Autowired
@@ -21,26 +23,30 @@ public class TodoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<TodoDto> getTodos() {
-        return todoRepository.findAll().stream().map(this::mapper).collect(Collectors.toList());
+    private TodoDto mapper(Todo todo){
+        return (modelMapper.map(todo, TodoDto.class));
     }
 
-    public Todo setTodo(TodoDto todo){
-        return todoRepository.save(modelMapper.map(todo, Todo.class));
+    @Override
+    public void add(TodoDto todoDto) {
+        todoRepository.save(modelMapper.map(todoDto, Todo.class));
     }
 
-    public void deleteTodo(Long id){
+    @Override
+    public void delete(Long id) {
         todoRepository.deleteById(id);
     }
 
-    public void updateTodo(Long id, TodoDto todoDto){
+    @Override
+    public void update(Long id, TodoDto todoDto) {
         Todo todoTemp = todoRepository.getById(id);
         todoTemp.setContent(todoDto.getContent());
         todoTemp.setCompleted(todoDto.isCompleted());
         todoRepository.save(todoTemp);
     }
 
-    private TodoDto mapper(Todo todo){
-        return (modelMapper.map(todo, TodoDto.class));
+    @Override
+    public List<TodoDto> getAll() {
+        return todoRepository.findAll().stream().map(this::mapper).collect(Collectors.toList());
     }
 }

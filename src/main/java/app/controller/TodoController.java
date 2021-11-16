@@ -1,7 +1,7 @@
-package com.app.controller;
+package app.controller;
 
-import com.app.service.TodoDto;
-import com.app.service.TodoService;
+import app.service.dtos.TodoDto;
+import app.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,21 +20,21 @@ public class TodoController {
 
     @GetMapping
     public List<TodoDto> getTodo() {
-        return todoService.getTodos();
+        return todoService.getAll();
     }
 
     @PostMapping
     public void setTodo(@RequestBody TodoDto dto){
-        todoService.setTodo(dto);
+        todoService.add(dto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteTodo(@PathVariable Long id){
-        todoService.deleteTodo(id);
+        todoService.delete(id);
     }
 
     @PutMapping("/{id}")
     public void updateTodo(@PathVariable Long id, @RequestBody TodoDto todoDto){
-        todoService.updateTodo(id, todoDto);
+        todoService.update(id, todoDto);
     }
 }
